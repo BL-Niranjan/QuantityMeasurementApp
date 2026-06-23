@@ -4,68 +4,86 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        QuantityLength oneFoot =
-                new QuantityLength(
-                        1,
-                        LengthUnit.FEET
-                );
-
-        QuantityLength twelveInches =
-                new QuantityLength(
-                        12,
-                        LengthUnit.INCHES
-                );
-
-        QuantityLength oneYard =
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
-                );
-
-        QuantityLength centimeters =
-                new QuantityLength(
-                        2.54,
-                        LengthUnit.CENTIMETERS
-                );
-
+        // Equality
         System.out.println(
-                oneFoot.convertTo(
-                        LengthUnit.INCHES
-                )
+                "Input: Quantity(1.0, KILOGRAM).equals(Quantity(1000.0, GRAM))"
         );
 
         System.out.println(
-                oneFoot.add(
-                        twelveInches,
-                        LengthUnit.FEET
-                )
+                "Output: " +
+                        new QuantityWeight(
+                                1.0,
+                                WeightUnit.KILOGRAM
+                        ).equals(
+                                new QuantityWeight(
+                                        1000.0,
+                                        WeightUnit.GRAM
+                                )
+                        )
+        );
+
+        System.out.println();
+
+        // Conversion
+        QuantityWeight converted =
+                new QuantityWeight(
+                        1.0,
+                        WeightUnit.KILOGRAM
+                ).convertTo(
+                        WeightUnit.GRAM
+                );
+
+        System.out.println(
+                "Input: Quantity(1.0, KILOGRAM).convertTo(GRAM)"
         );
 
         System.out.println(
-                twelveInches.equals(
-                        oneYard
-                )
+                "Output: " + converted
+        );
+
+        System.out.println();
+
+        // Addition
+        QuantityWeight addition =
+                new QuantityWeight(
+                        1.0,
+                        WeightUnit.KILOGRAM
+                ).add(
+                        new QuantityWeight(
+                                1000.0,
+                                WeightUnit.GRAM
+                        )
+                );
+
+        System.out.println(
+                "Input: Quantity(1.0, KILOGRAM).add(Quantity(1000.0, GRAM))"
         );
 
         System.out.println(
-                oneYard.add(
-                        new QuantityLength(
-                                3,
-                                LengthUnit.FEET
+                "Output: " + addition
+        );
+
+        System.out.println();
+
+        // Addition with target unit
+        QuantityWeight targetAddition =
+                new QuantityWeight(
+                        1.0,
+                        WeightUnit.KILOGRAM
+                ).add(
+                        new QuantityWeight(
+                                1000.0,
+                                WeightUnit.GRAM
                         ),
-                        LengthUnit.YARDS
-                )
+                        WeightUnit.GRAM
+                );
+
+        System.out.println(
+                "Input: Quantity(1.0, KILOGRAM).add(Quantity(1000.0, GRAM), GRAM)"
         );
 
         System.out.println(
-                centimeters.convertTo(
-                        LengthUnit.INCHES
-                )
-        );
-
-        System.out.println(
-                LengthUnit.INCHES
-                        .convertToBaseUnit(12)
+                "Output: " + targetAddition
         );
     }
 }
