@@ -1,8 +1,6 @@
-package Main;
-
 public class QuantityMeasurementApp {
 
-    public static class Feet {
+    static class Feet {
 
         private final double value;
 
@@ -10,39 +8,82 @@ public class QuantityMeasurementApp {
             this.value = value;
         }
 
-        public double getValue() {
-            return value;
+        @Override
+        public boolean equals(Object obj) {
+
+            if (this == obj)
+                return true;
+
+            if (obj == null ||
+                    getClass() != obj.getClass())
+                return false;
+
+            Feet other = (Feet) obj;
+
+            return Double.compare(
+                    value,
+                    other.value
+            ) == 0;
+        }
+    }
+
+    static class Inches {
+
+        private final double value;
+
+        public Inches(double value) {
+            this.value = value;
         }
 
         @Override
         public boolean equals(Object obj) {
 
-            if (this == obj) {
+            if (this == obj)
                 return true;
-            }
 
-            if (obj == null || getClass() != obj.getClass()) {
+            if (obj == null ||
+                    getClass() != obj.getClass())
                 return false;
-            }
 
-            Feet other = (Feet) obj;
+            Inches other = (Inches) obj;
 
-            return Double.compare(this.value, other.value) == 0;
+            return Double.compare(
+                    value,
+                    other.value
+            ) == 0;
         }
+    }
 
-        @Override
-        public String toString() {
-            return value + " ft";
-        }
+    public static boolean checkFeetEquality(
+            double value1,
+            double value2) {
+
+        Feet feet1 = new Feet(value1);
+        Feet feet2 = new Feet(value2);
+
+        return feet1.equals(feet2);
+    }
+
+    public static boolean checkInchesEquality(
+            double value1,
+            double value2) {
+
+        Inches inches1 = new Inches(value1);
+        Inches inches2 = new Inches(value2);
+
+        return inches1.equals(inches2);
     }
 
     public static void main(String[] args) {
 
-        Feet feet1 = new Feet(1.0);
-        Feet feet2 = new Feet(1.0);
+        System.out.println(
+                "Feet Equality : "
+                        + checkFeetEquality(1.0, 1.0)
+        );
 
-        boolean result = feet1.equals(feet2);
-
-        System.out.println("Equal : " + result);
+        System.out.println(
+                "Inches Equality : "
+                        + checkInchesEquality(1.0, 1.0)
+        );
     }
 }
