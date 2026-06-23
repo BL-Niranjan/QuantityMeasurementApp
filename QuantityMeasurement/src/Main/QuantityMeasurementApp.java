@@ -2,75 +2,70 @@ package Main;
 
 public class QuantityMeasurementApp {
 
-    public static void demonstrateAddition(
-            QuantityLength first,
-            QuantityLength second,
-            LengthUnit targetUnit) {
-
-        QuantityLength result =
-                QuantityLength.add(
-                        first,
-                        second,
-                        targetUnit
-                );
-
-        System.out.println(
-                first +
-                        " + " +
-                        second +
-                        " = " +
-                        result
-        );
-    }
-
     public static void main(String[] args) {
 
-        demonstrateAddition(
+        QuantityLength oneFoot =
                 new QuantityLength(
                         1,
                         LengthUnit.FEET
-                ),
+                );
+
+        QuantityLength twelveInches =
                 new QuantityLength(
                         12,
-                        LengthUnit.INCH
-                ),
-                LengthUnit.FEET
-        );
+                        LengthUnit.INCHES
+                );
 
-        demonstrateAddition(
-                new QuantityLength(
-                        1,
-                        LengthUnit.FEET
-                ),
-                new QuantityLength(
-                        12,
-                        LengthUnit.INCH
-                ),
-                LengthUnit.INCH
-        );
-
-        demonstrateAddition(
-                new QuantityLength(
-                        1,
-                        LengthUnit.FEET
-                ),
-                new QuantityLength(
-                        12,
-                        LengthUnit.INCH
-                ),
-                LengthUnit.YARDS
-        );
-
-        demonstrateAddition(
-                new QuantityLength(
-                        36,
-                        LengthUnit.INCH
-                ),
+        QuantityLength oneYard =
                 new QuantityLength(
                         1,
                         LengthUnit.YARDS
-                ),
-                LengthUnit.FEET
+                );
+
+        QuantityLength centimeters =
+                new QuantityLength(
+                        2.54,
+                        LengthUnit.CENTIMETERS
+                );
+
+        System.out.println(
+                oneFoot.convertTo(
+                        LengthUnit.INCHES
+                )
+        );
+
+        System.out.println(
+                oneFoot.add(
+                        twelveInches,
+                        LengthUnit.FEET
+                )
+        );
+
+        System.out.println(
+                twelveInches.equals(
+                        oneYard
+                )
+        );
+
+        System.out.println(
+                oneYard.add(
+                        new QuantityLength(
+                                3,
+                                LengthUnit.FEET
+                        ),
+                        LengthUnit.YARDS
+                )
+        );
+
+        System.out.println(
+                centimeters.convertTo(
+                        LengthUnit.INCHES
+                )
+        );
+
+        System.out.println(
+                LengthUnit.INCHES
+                        .convertToBaseUnit(12)
         );
     }
 }
