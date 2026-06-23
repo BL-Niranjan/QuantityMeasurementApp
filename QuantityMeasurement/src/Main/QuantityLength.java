@@ -1,9 +1,7 @@
 package Main;
 
 import java.util.Objects;
-/**
- * Represents an immutable length quantity.
- */
+
 public class QuantityLength {
 
     private static final double EPSILON = 0.000001;
@@ -34,16 +32,13 @@ public class QuantityLength {
         return unit;
     }
 
-    /**
-     * Convert current object to target unit.
-     */
     public QuantityLength convertTo(
             LengthUnit targetUnit) {
 
         double convertedValue =
                 convert(
-                        this.value,
-                        this.unit,
+                        value,
+                        unit,
                         targetUnit
                 );
 
@@ -53,9 +48,67 @@ public class QuantityLength {
         );
     }
 
-    /**
-     * Static conversion API.
-     */
+    public QuantityLength add(
+            QuantityLength other) {
+
+        if (other == null) {
+            throw new IllegalArgumentException(
+                    "Other quantity cannot be null"
+            );
+        }
+
+        double thisBase =
+                convertToBaseUnit();
+
+        double otherBase =
+                other.convertToBaseUnit();
+
+        double totalBase =
+                thisBase + otherBase;
+
+        double resultValue =
+                totalBase /
+                        unit.getConversionFactor();
+
+        return new QuantityLength(
+                resultValue,
+                unit
+        );
+    }
+
+    public static QuantityLength add(
+            QuantityLength first,
+            QuantityLength second,
+            LengthUnit targetUnit) {
+
+        if (first == null ||
+                second == null ||
+                targetUnit == null) {
+
+            throw new IllegalArgumentException(
+                    "Invalid input"
+            );
+        }
+
+        double firstBase =
+                first.convertToBaseUnit();
+
+        double secondBase =
+                second.convertToBaseUnit();
+
+        double totalBase =
+                firstBase + secondBase;
+
+        double resultValue =
+                totalBase /
+                        targetUnit.getConversionFactor();
+
+        return new QuantityLength(
+                resultValue,
+                targetUnit
+        );
+    }
+
     public static double convert(
             double value,
             LengthUnit sourceUnit,
@@ -67,27 +120,16 @@ public class QuantityLength {
                 targetUnit == null) {
 
             throw new IllegalArgumentException(
-                    "Units cannot be null"
+                    "Unit cannot be null"
             );
         }
 
-        double valueInBaseUnit =
+        double baseValue =
                 value *
                         sourceUnit.getConversionFactor();
 
-        return valueInBaseUnit /
+        return baseValue /
                 targetUnit.getConversionFactor();
-    }
-
-    private static void validateValue(
-            double value) {
-
-        if (!Double.isFinite(value)) {
-
-            throw new IllegalArgumentException(
-                    "Value must be finite"
-            );
-        }
     }
 
     private double convertToBaseUnit() {
@@ -96,17 +138,26 @@ public class QuantityLength {
                 unit.getConversionFactor();
     }
 
+    private static void validateValue(
+            double value) {
+
+        if (!Double.isFinite(value)) {
+
+            throw new IllegalArgumentException(
+                    "Invalid numeric value"
+            );
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
 
         if (obj == null ||
-                getClass() != obj.getClass()) {
+                getClass() != obj.getClass())
             return false;
-        }
 
         QuantityLength other =
                 (QuantityLength) obj;
@@ -129,7 +180,7 @@ public class QuantityLength {
     public String toString() {
 
         return String.format(
-                "%.6f %s",
+                "%.4f %s",
                 value,
                 unit
         );
