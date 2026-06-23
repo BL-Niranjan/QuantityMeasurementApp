@@ -1,122 +1,158 @@
+package Test;
+
+import Main.LengthUnit;
+import Main.QuantityLength;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuantityMeasurementAppTest {
 
-    // Feet Tests
+    @Test
+    void testEquality_FeetToFeet_SameValue() {
+
+        QuantityLength q1 =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
+
+        QuantityLength q2 =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
+
+        assertTrue(q1.equals(q2));
+    }
 
     @Test
-    void testFeetEquality_SameValue() {
+    void testEquality_InchToInch_SameValue() {
+
+        QuantityLength q1 =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.INCH
+                );
+
+        QuantityLength q2 =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.INCH
+                );
+
+        assertTrue(q1.equals(q2));
+    }
+
+    @Test
+    void testEquality_FeetToInch_EquivalentValue() {
+
+        QuantityLength feet =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
+
+        QuantityLength inch =
+                new QuantityLength(
+                        12.0,
+                        LengthUnit.INCH
+                );
+
+        assertTrue(feet.equals(inch));
+    }
+
+    @Test
+    void testEquality_InchToFeet_EquivalentValue() {
+
+        QuantityLength inch =
+                new QuantityLength(
+                        12.0,
+                        LengthUnit.INCH
+                );
+
+        QuantityLength feet =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
+
+        assertTrue(inch.equals(feet));
+    }
+
+    @Test
+    void testEquality_FeetToFeet_DifferentValue() {
+
+        QuantityLength q1 =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
+
+        QuantityLength q2 =
+                new QuantityLength(
+                        2.0,
+                        LengthUnit.FEET
+                );
+
+        assertFalse(q1.equals(q2));
+    }
+
+    @Test
+    void testEquality_InchToInch_DifferentValue() {
+
+        QuantityLength q1 =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.INCH
+                );
+
+        QuantityLength q2 =
+                new QuantityLength(
+                        2.0,
+                        LengthUnit.INCH
+                );
+
+        assertFalse(q1.equals(q2));
+    }
+
+    @Test
+    void testEquality_SameReference() {
+
+        QuantityLength quantity =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
 
         assertTrue(
-                QuantityMeasurementApp
-                        .checkFeetEquality(
-                                1.0,
-                                1.0
-                        )
+                quantity.equals(quantity)
         );
     }
 
     @Test
-    void testFeetEquality_DifferentValue() {
+    void testEquality_NullComparison() {
+
+        QuantityLength quantity =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET
+                );
 
         assertFalse(
-                QuantityMeasurementApp
-                        .checkFeetEquality(
-                                1.0,
-                                2.0
-                        )
+                quantity.equals(null)
         );
     }
 
     @Test
-    void testFeetEquality_SameReference() {
+    void testEquality_NullUnit() {
 
-        QuantityMeasurementApp.Feet feet =
-                new QuantityMeasurementApp
-                        .Feet(1.0);
-
-        assertTrue(feet.equals(feet));
-    }
-
-    @Test
-    void testFeetEquality_NullComparison() {
-
-        QuantityMeasurementApp.Feet feet =
-                new QuantityMeasurementApp
-                        .Feet(1.0);
-
-        assertFalse(feet.equals(null));
-    }
-
-    @Test
-    void testFeetEquality_NonNumericInput() {
-
-        QuantityMeasurementApp.Feet feet =
-                new QuantityMeasurementApp
-                        .Feet(1.0);
-
-        assertFalse(
-                feet.equals("1.0")
-        );
-    }
-
-    // Inches Tests
-
-    @Test
-    void testInchesEquality_SameValue() {
-
-        assertTrue(
-                QuantityMeasurementApp
-                        .checkInchesEquality(
-                                1.0,
-                                1.0
-                        )
-        );
-    }
-
-    @Test
-    void testInchesEquality_DifferentValue() {
-
-        assertFalse(
-                QuantityMeasurementApp
-                        .checkInchesEquality(
-                                1.0,
-                                2.0
-                        )
-        );
-    }
-
-    @Test
-    void testInchesEquality_SameReference() {
-
-        QuantityMeasurementApp.Inches inches =
-                new QuantityMeasurementApp
-                        .Inches(1.0);
-
-        assertTrue(inches.equals(inches));
-    }
-
-    @Test
-    void testInchesEquality_NullComparison() {
-
-        QuantityMeasurementApp.Inches inches =
-                new QuantityMeasurementApp
-                        .Inches(1.0);
-
-        assertFalse(inches.equals(null));
-    }
-
-    @Test
-    void testInchesEquality_NonNumericInput() {
-
-        QuantityMeasurementApp.Inches inches =
-                new QuantityMeasurementApp
-                        .Inches(1.0);
-
-        assertFalse(
-                inches.equals("1.0")
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new QuantityLength(
+                        1.0,
+                        null
+                )
         );
     }
 }
