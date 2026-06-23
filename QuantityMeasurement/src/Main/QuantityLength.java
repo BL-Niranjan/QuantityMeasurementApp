@@ -6,11 +6,12 @@ public class QuantityLength {
 
     private static final double EPSILON = 0.000001;
 
-    private final double value;
-    private final LengthUnit unit;
+    private static double value = 0;
+    private static LengthUnit unit = null;
 
-    public QuantityLength(double value,
-                          LengthUnit unit) {
+    public QuantityLength(
+            double value,
+            LengthUnit unit) {
 
         validateValue(value);
 
@@ -35,12 +36,17 @@ public class QuantityLength {
     public QuantityLength convertTo(
             LengthUnit targetUnit) {
 
+        if (targetUnit == null) {
+            throw new IllegalArgumentException(
+                    "Target Unit cannot be null"
+            );
+        }
+
+        double baseValue =
+                unit.convertToBaseUnit(value);
+
         double convertedValue =
-                convert(
-                        value,
-                        unit,
-                        targetUnit
-                );
+                targetUnit.convertFromBaseUnit(baseValue);
 
         return new QuantityLength(
                 convertedValue,
@@ -50,7 +56,6 @@ public class QuantityLength {
 
     /*
      * UC6
-     * Result in first operand unit
      */
     public QuantityLength add(
             QuantityLength other) {
@@ -60,9 +65,8 @@ public class QuantityLength {
 
     /*
      * UC7
-     * Result in explicit target unit
      */
-    public QuantityLength add(
+    public static QuantityLength add(
             QuantityLength other,
             LengthUnit targetUnit) {
 
@@ -74,62 +78,25 @@ public class QuantityLength {
 
         if (targetUnit == null) {
             throw new IllegalArgumentException(
-                    "Target unit cannot be null"
+                    "Target Unit cannot be null"
             );
         }
-
-        return performAddition(
-                this,
-                other,
-                targetUnit
-        );
-    }
-
-    /*
-     * Static API
-     */
-    public static QuantityLength add(
-            QuantityLength first,
-            QuantityLength second,
-            LengthUnit targetUnit) {
-
-        if (first == null ||
-                second == null ||
-                targetUnit == null) {
-
-            throw new IllegalArgumentException(
-                    "Invalid input"
-            );
-        }
-
-        return performAddition(
-                first,
-                second,
-                targetUnit
-        );
-    }
-
-    /*
-     * Private Utility Method
-     * DRY Principle
-     */
-    private static QuantityLength performAddition(
-            QuantityLength first,
-            QuantityLength second,
-            LengthUnit targetUnit) {
 
         double firstBase =
-                first.convertToBaseUnit();
+                unit.convertToBaseUnit(value);
 
         double secondBase =
-                second.convertToBaseUnit();
+                other.unit.convertToBaseUnit(
+                        other.value
+                );
 
         double totalBase =
                 firstBase + secondBase;
 
         double resultValue =
-                totalBase /
-                        targetUnit.getConversionFactor();
+                targetUnit.convertFromBaseUnit(
+                        totalBase
+                );
 
         return new QuantityLength(
                 resultValue,
@@ -137,6 +104,9 @@ public class QuantityLength {
         );
     }
 
+    /*
+     * UC5
+     */
     public static double convert(
             double value,
             LengthUnit sourceUnit,
@@ -153,17 +123,10 @@ public class QuantityLength {
         }
 
         double baseValue =
-                value *
-                        sourceUnit.getConversionFactor();
+                sourceUnit.convertToBaseUnit(value);
 
-        return baseValue /
-                targetUnit.getConversionFactor();
-    }
-
-    private double convertToBaseUnit() {
-
-        return value *
-                unit.getConversionFactor();
+        return targetUnit
+                .convertFromBaseUnit(baseValue);
     }
 
     private static void validateValue(
@@ -172,7 +135,7 @@ public class QuantityLength {
         if (!Double.isFinite(value)) {
 
             throw new IllegalArgumentException(
-                    "Invalid numeric value"
+                    "Invalid Value"
             );
         }
     }
@@ -190,9 +153,16 @@ public class QuantityLength {
         QuantityLength other =
                 (QuantityLength) obj;
 
+        double thisBase =
+                unit.convertToBaseUnit(value);
+
+        double otherBase =
+                other.unit.convertToBaseUnit(
+                        other.value
+                );
+
         return Math.abs(
-                convertToBaseUnit()
-                        - other.convertToBaseUnit()
+                thisBase - otherBase
         ) < EPSILON;
     }
 
@@ -200,7 +170,7 @@ public class QuantityLength {
     public int hashCode() {
 
         return Objects.hash(
-                convertToBaseUnit()
+                unit.convertToBaseUnit(value)
         );
     }
 
@@ -208,7 +178,7 @@ public class QuantityLength {
     public String toString() {
 
         return String.format(
-                "%.3f %s",
+                "%.2f %s",
                 value,
                 unit
         );

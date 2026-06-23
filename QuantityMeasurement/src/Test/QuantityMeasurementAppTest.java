@@ -20,10 +20,6 @@ class QuantityMeasurementAppTest {
                                 1,
                                 LengthUnit.FEET
                         ),
-                        new QuantityLength(
-                                12,
-                                LengthUnit.INCH
-                        ),
                         LengthUnit.FEET
                 );
 
@@ -43,11 +39,7 @@ class QuantityMeasurementAppTest {
                                 1,
                                 LengthUnit.FEET
                         ),
-                        new QuantityLength(
-                                12,
-                                LengthUnit.INCH
-                        ),
-                        LengthUnit.INCH
+                        LengthUnit.INCHES
                 );
 
         assertEquals(
@@ -63,12 +55,8 @@ class QuantityMeasurementAppTest {
         QuantityLength result =
                 QuantityLength.add(
                         new QuantityLength(
-                                1,
-                                LengthUnit.FEET
-                        ),
-                        new QuantityLength(
                                 12,
-                                LengthUnit.INCH
+                                LengthUnit.INCHES
                         ),
                         LengthUnit.YARDS
                 );
@@ -87,13 +75,9 @@ class QuantityMeasurementAppTest {
                 QuantityLength.add(
                         new QuantityLength(
                                 1,
-                                LengthUnit.INCH
+                                LengthUnit.INCHES
                         ),
-                        new QuantityLength(
-                                1,
-                                LengthUnit.INCH
-                        ),
-                        LengthUnit.CENTIMETER
+                        LengthUnit.CENTIMETERS
                 );
 
         assertEquals(
@@ -112,19 +96,11 @@ class QuantityMeasurementAppTest {
                                 1,
                                 LengthUnit.FEET
                         ),
-                        new QuantityLength(
-                                12,
-                                LengthUnit.INCH
-                        ),
                         LengthUnit.YARDS
                 );
 
         QuantityLength second =
                 QuantityLength.add(
-                        new QuantityLength(
-                                12,
-                                LengthUnit.INCH
-                        ),
                         new QuantityLength(
                                 1,
                                 LengthUnit.FEET
@@ -147,10 +123,6 @@ class QuantityMeasurementAppTest {
                                 5,
                                 LengthUnit.FEET
                         ),
-                        new QuantityLength(
-                                0,
-                                LengthUnit.INCH
-                        ),
                         LengthUnit.YARDS
                 );
 
@@ -167,14 +139,10 @@ class QuantityMeasurementAppTest {
         QuantityLength result =
                 QuantityLength.add(
                         new QuantityLength(
-                                5,
-                                LengthUnit.FEET
-                        ),
-                        new QuantityLength(
                                 -2,
                                 LengthUnit.FEET
                         ),
-                        LengthUnit.INCH
+                        LengthUnit.INCHES
                 );
 
         assertEquals(
@@ -194,10 +162,6 @@ class QuantityMeasurementAppTest {
                                 1,
                                 LengthUnit.FEET
                         ),
-                        new QuantityLength(
-                                12,
-                                LengthUnit.INCH
-                        ),
                         null
                 )
         );
@@ -212,11 +176,7 @@ class QuantityMeasurementAppTest {
                                 1000,
                                 LengthUnit.FEET
                         ),
-                        new QuantityLength(
-                                500,
-                                LengthUnit.FEET
-                        ),
-                        LengthUnit.INCH
+                        LengthUnit.INCHES
                 );
 
         assertEquals(
@@ -233,11 +193,7 @@ class QuantityMeasurementAppTest {
                 QuantityLength.add(
                         new QuantityLength(
                                 12,
-                                LengthUnit.INCH
-                        ),
-                        new QuantityLength(
-                                12,
-                                LengthUnit.INCH
+                                LengthUnit.INCHES
                         ),
                         LengthUnit.YARDS
                 );
