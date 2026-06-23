@@ -2,6 +2,7 @@ package Main;
 
 import java.util.Objects;
 
+
 public class QuantityLength {
 
     private final double value;
@@ -28,8 +29,10 @@ public class QuantityLength {
         return unit;
     }
 
-    private double toFeet() {
-        return value * unit.getConversionFactor();
+    private double convertToInches() {
+
+        return value *
+                unit.getConversionFactor();
     }
 
     @Override
@@ -48,18 +51,15 @@ public class QuantityLength {
                 (QuantityLength) obj;
 
         return Double.compare(
-                this.toFeet(),
-                other.toFeet()
+                convertToInches(),
+                other.convertToInches()
         ) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(toFeet());
-    }
-
-    @Override
-    public String toString() {
-        return value + " " + unit;
+        return Objects.hash(
+                convertToInches()
+        );
     }
 }
