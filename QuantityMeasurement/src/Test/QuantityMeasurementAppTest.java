@@ -8,108 +8,196 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QuantityMeasurementAppTest {
 
+    private static final double EPSILON =
+            0.000001;
+
     @Test
-    void testEquality_YardToYard_SameValue() {
+    void testConversion_FeetToInches() {
 
         assertEquals(
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
+                12.0,
+                QuantityLength.convert(
+                        1.0,
+                        LengthUnit.FEET,
+                        LengthUnit.INCH
                 ),
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
-                )
+                EPSILON
         );
     }
 
     @Test
-    void testEquality_YardToYard_DifferentValue() {
-
-        assertNotEquals(
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
-                ),
-                new QuantityLength(
-                        2,
-                        LengthUnit.YARDS
-                )
-        );
-    }
-
-    @Test
-    void testEquality_YardToFeet_EquivalentValue() {
+    void testConversion_InchesToFeet() {
 
         assertEquals(
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
-                ),
-                new QuantityLength(
-                        3,
-                        LengthUnit.FEET
-                )
-        );
-    }
-
-    @Test
-    void testEquality_FeetToYard_EquivalentValue() {
-
-        assertEquals(
-                new QuantityLength(
-                        3,
+                2.0,
+                QuantityLength.convert(
+                        24.0,
+                        LengthUnit.INCH,
                         LengthUnit.FEET
                 ),
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
-                )
+                EPSILON
         );
     }
 
     @Test
-    void testEquality_YardToInches_EquivalentValue() {
+    void testConversion_YardsToInches() {
 
         assertEquals(
-                new QuantityLength(
-                        1,
+                36.0,
+                QuantityLength.convert(
+                        1.0,
+                        LengthUnit.YARDS,
+                        LengthUnit.INCH
+                ),
+                EPSILON
+        );
+    }
+
+    @Test
+    void testConversion_InchesToYards() {
+
+        assertEquals(
+                2.0,
+                QuantityLength.convert(
+                        72.0,
+                        LengthUnit.INCH,
                         LengthUnit.YARDS
                 ),
-                new QuantityLength(
-                        36,
+                EPSILON
+        );
+    }
+
+    @Test
+    void testConversion_CentimetersToInches() {
+
+        assertEquals(
+                1.0,
+                QuantityLength.convert(
+                        2.54,
+                        LengthUnit.CENTIMETER,
+                        LengthUnit.INCH
+                ),
+                0.001
+        );
+    }
+
+    @Test
+    void testConversion_FeetToYards() {
+
+        assertEquals(
+                2.0,
+                QuantityLength.convert(
+                        6.0,
+                        LengthUnit.FEET,
+                        LengthUnit.YARDS
+                ),
+                EPSILON
+        );
+    }
+
+    @Test
+    void testConversion_RoundTrip_PreservesValue() {
+
+        double original = 10.0;
+
+        double converted =
+                QuantityLength.convert(
+                        original,
+                        LengthUnit.FEET,
+                        LengthUnit.INCH
+                );
+
+        double back =
+                QuantityLength.convert(
+                        converted,
+                        LengthUnit.INCH,
+                        LengthUnit.FEET
+                );
+
+        assertEquals(
+                original,
+                back,
+                EPSILON
+        );
+    }
+
+    @Test
+    void testConversion_ZeroValue() {
+
+        assertEquals(
+                0.0,
+                QuantityLength.convert(
+                        0.0,
+                        LengthUnit.FEET,
+                        LengthUnit.INCH
+                ),
+                EPSILON
+        );
+    }
+
+    @Test
+    void testConversion_NegativeValue() {
+
+        assertEquals(
+                -12.0,
+                QuantityLength.convert(
+                        -1.0,
+                        LengthUnit.FEET,
+                        LengthUnit.INCH
+                ),
+                EPSILON
+        );
+    }
+
+    @Test
+    void testConversion_InvalidUnit_Throws() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> QuantityLength.convert(
+                        1.0,
+                        null,
                         LengthUnit.INCH
                 )
         );
     }
 
     @Test
-    void testEquality_InchesToYard_EquivalentValue() {
+    void testConversion_NaNOrInfinite_Throws() {
 
-        assertEquals(
-                new QuantityLength(
-                        36,
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> QuantityLength.convert(
+                        Double.NaN,
+                        LengthUnit.FEET,
                         LengthUnit.INCH
-                ),
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
+                )
+        );
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> QuantityLength.convert(
+                        Double.POSITIVE_INFINITY,
+                        LengthUnit.FEET,
+                        LengthUnit.INCH
                 )
         );
     }
 
     @Test
-    void testEquality_YardToFeet_NonEquivalentValue() {
+    void testConversion_PrecisionTolerance() {
 
-        assertNotEquals(
-                new QuantityLength(
-                        1,
-                        LengthUnit.YARDS
-                ),
-                new QuantityLength(
-                        2,
-                        LengthUnit.FEET
-                )
+        double result =
+                QuantityLength.convert(
+                        2.54,
+                        LengthUnit.CENTIMETER,
+                        LengthUnit.INCH
+                );
+
+        assertEquals(
+                1.0,
+                result,
+                0.001
         );
     }
 }
