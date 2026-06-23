@@ -48,8 +48,23 @@ public class QuantityLength {
         );
     }
 
+    /*
+     * UC6
+     * Result in first operand unit
+     */
     public QuantityLength add(
             QuantityLength other) {
+
+        return add(other, this.unit);
+    }
+
+    /*
+     * UC7
+     * Result in explicit target unit
+     */
+    public QuantityLength add(
+            QuantityLength other,
+            LengthUnit targetUnit) {
 
         if (other == null) {
             throw new IllegalArgumentException(
@@ -57,25 +72,22 @@ public class QuantityLength {
             );
         }
 
-        double thisBase =
-                convertToBaseUnit();
+        if (targetUnit == null) {
+            throw new IllegalArgumentException(
+                    "Target unit cannot be null"
+            );
+        }
 
-        double otherBase =
-                other.convertToBaseUnit();
-
-        double totalBase =
-                thisBase + otherBase;
-
-        double resultValue =
-                totalBase /
-                        unit.getConversionFactor();
-
-        return new QuantityLength(
-                resultValue,
-                unit
+        return performAddition(
+                this,
+                other,
+                targetUnit
         );
     }
 
+    /*
+     * Static API
+     */
     public static QuantityLength add(
             QuantityLength first,
             QuantityLength second,
@@ -89,6 +101,22 @@ public class QuantityLength {
                     "Invalid input"
             );
         }
+
+        return performAddition(
+                first,
+                second,
+                targetUnit
+        );
+    }
+
+    /*
+     * Private Utility Method
+     * DRY Principle
+     */
+    private static QuantityLength performAddition(
+            QuantityLength first,
+            QuantityLength second,
+            LengthUnit targetUnit) {
 
         double firstBase =
                 first.convertToBaseUnit();
@@ -120,7 +148,7 @@ public class QuantityLength {
                 targetUnit == null) {
 
             throw new IllegalArgumentException(
-                    "Unit cannot be null"
+                    "Units cannot be null"
             );
         }
 
@@ -180,7 +208,7 @@ public class QuantityLength {
     public String toString() {
 
         return String.format(
-                "%.4f %s",
+                "%.3f %s",
                 value,
                 unit
         );
