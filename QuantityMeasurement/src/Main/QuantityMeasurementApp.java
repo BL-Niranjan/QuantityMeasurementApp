@@ -1,21 +1,25 @@
 package Main;
 
-import Main.LengthUnit;
-import Main.QuantityLength;
 public class QuantityMeasurementApp {
 
     public static void demonstrateAddition(
             QuantityLength first,
-            QuantityLength second) {
+            QuantityLength second,
+            LengthUnit targetUnit) {
 
         QuantityLength result =
-                first.add(second);
+                QuantityLength.add(
+                        first,
+                        second,
+                        targetUnit
+                );
 
         System.out.println(
-                first + " + "
-                        + second
-                        + " = "
-                        + result
+                first +
+                        " + " +
+                        second +
+                        " = " +
+                        result
         );
     }
 
@@ -29,29 +33,44 @@ public class QuantityMeasurementApp {
                 new QuantityLength(
                         12,
                         LengthUnit.INCH
-                )
+                ),
+                LengthUnit.FEET
         );
 
         demonstrateAddition(
+                new QuantityLength(
+                        1,
+                        LengthUnit.FEET
+                ),
+                new QuantityLength(
+                        12,
+                        LengthUnit.INCH
+                ),
+                LengthUnit.INCH
+        );
+
+        demonstrateAddition(
+                new QuantityLength(
+                        1,
+                        LengthUnit.FEET
+                ),
+                new QuantityLength(
+                        12,
+                        LengthUnit.INCH
+                ),
+                LengthUnit.YARDS
+        );
+
+        demonstrateAddition(
+                new QuantityLength(
+                        36,
+                        LengthUnit.INCH
+                ),
                 new QuantityLength(
                         1,
                         LengthUnit.YARDS
                 ),
-                new QuantityLength(
-                        3,
-                        LengthUnit.FEET
-                )
-        );
-
-        demonstrateAddition(
-                new QuantityLength(
-                        2.54,
-                        LengthUnit.CENTIMETER
-                ),
-                new QuantityLength(
-                        1,
-                        LengthUnit.INCH
-                )
+                LengthUnit.FEET
         );
     }
 }
