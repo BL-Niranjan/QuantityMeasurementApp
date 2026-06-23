@@ -2,54 +2,111 @@ package Main;
 
 import Main.LengthUnit;
 import Main.QuantityLength;
-
 public class QuantityMeasurementApp {
+
+    public static void demonstrateLengthConversion(
+            double value,
+            LengthUnit fromUnit,
+            LengthUnit toUnit) {
+
+        double result =
+                QuantityLength.convert(
+                        value,
+                        fromUnit,
+                        toUnit
+                );
+
+        System.out.println(
+                value + " " + fromUnit +
+                        " = " +
+                        result + " " +
+                        toUnit
+        );
+    }
+
+    public static void demonstrateLengthConversion(
+            QuantityLength quantity,
+            LengthUnit targetUnit) {
+
+        QuantityLength converted =
+                quantity.convertTo(targetUnit);
+
+        System.out.println(
+                quantity +
+                        " = " +
+                        converted
+        );
+    }
+
+    public static void demonstrateLengthEquality(
+            QuantityLength length1,
+            QuantityLength length2) {
+
+        System.out.println(
+                "Equal : "
+                        + length1.equals(length2)
+        );
+    }
+
+    public static void demonstrateLengthComparison(
+            double value1,
+            LengthUnit unit1,
+            double value2,
+            LengthUnit unit2) {
+
+        QuantityLength q1 =
+                new QuantityLength(
+                        value1,
+                        unit1
+                );
+
+        QuantityLength q2 =
+                new QuantityLength(
+                        value2,
+                        unit2
+                );
+
+        demonstrateLengthEquality(
+                q1,
+                q2
+        );
+    }
 
     public static void main(String[] args) {
 
-        QuantityLength yard =
+        demonstrateLengthConversion(
+                1.0,
+                LengthUnit.FEET,
+                LengthUnit.INCH
+        );
+
+        demonstrateLengthConversion(
+                3.0,
+                LengthUnit.YARDS,
+                LengthUnit.FEET
+        );
+
+        demonstrateLengthConversion(
+                36.0,
+                LengthUnit.INCH,
+                LengthUnit.YARDS
+        );
+
+        demonstrateLengthConversion(
+                1.0,
+                LengthUnit.CENTIMETER,
+                LengthUnit.INCH
+        );
+
+        QuantityLength length =
                 new QuantityLength(
-                        1.0,
+                        2.0,
                         LengthUnit.YARDS
                 );
 
-        QuantityLength feet =
-                new QuantityLength(
-                        3.0,
-                        LengthUnit.FEET
-                );
-
-        QuantityLength inch =
-                new QuantityLength(
-                        36.0,
-                        LengthUnit.INCH
-                );
-
-        QuantityLength cm =
-                new QuantityLength(
-                        1.0,
-                        LengthUnit.CENTIMETER
-                );
-
-        QuantityLength inchEquivalent =
-                new QuantityLength(
-                        0.393701,
-                        LengthUnit.INCH
-                );
-
-        System.out.println(
-                "1 Yard == 3 Feet : "
-                        + yard.equals(feet)
-        );
-
-        System.out.println(
-                "1 Yard == 36 Inches : "
-                        + yard.equals(inch)
-        );
-
-        System.out.println(
-                "1 CM == 0.393701 Inch : "
-                        + cm.equals(inchEquivalent)
+        demonstrateLengthConversion(
+                length,
+                LengthUnit.INCH
         );
     }
 }

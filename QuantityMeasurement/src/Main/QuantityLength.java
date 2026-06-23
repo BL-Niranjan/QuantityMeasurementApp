@@ -1,15 +1,20 @@
 package Main;
 
 import java.util.Objects;
-
-
+/**
+ * Represents an immutable length quantity.
+ */
 public class QuantityLength {
+
+    private static final double EPSILON = 0.000001;
 
     private final double value;
     private final LengthUnit unit;
 
     public QuantityLength(double value,
                           LengthUnit unit) {
+
+        validateValue(value);
 
         if (unit == null) {
             throw new IllegalArgumentException(
@@ -29,7 +34,63 @@ public class QuantityLength {
         return unit;
     }
 
-    private double convertToInches() {
+    /**
+     * Convert current object to target unit.
+     */
+    public QuantityLength convertTo(
+            LengthUnit targetUnit) {
+
+        double convertedValue =
+                convert(
+                        this.value,
+                        this.unit,
+                        targetUnit
+                );
+
+        return new QuantityLength(
+                convertedValue,
+                targetUnit
+        );
+    }
+
+    /**
+     * Static conversion API.
+     */
+    public static double convert(
+            double value,
+            LengthUnit sourceUnit,
+            LengthUnit targetUnit) {
+
+        validateValue(value);
+
+        if (sourceUnit == null ||
+                targetUnit == null) {
+
+            throw new IllegalArgumentException(
+                    "Units cannot be null"
+            );
+        }
+
+        double valueInBaseUnit =
+                value *
+                        sourceUnit.getConversionFactor();
+
+        return valueInBaseUnit /
+                targetUnit.getConversionFactor();
+    }
+
+    private static void validateValue(
+            double value) {
+
+        if (!Double.isFinite(value)) {
+
+            throw new IllegalArgumentException(
+                    "Value must be finite"
+            );
+        }
+    }
+
+    private double convertToBaseUnit() {
 
         return value *
                 unit.getConversionFactor();
@@ -50,16 +111,27 @@ public class QuantityLength {
         QuantityLength other =
                 (QuantityLength) obj;
 
-        return Double.compare(
-                convertToInches(),
-                other.convertToInches()
-        ) == 0;
+        return Math.abs(
+                convertToBaseUnit()
+                        - other.convertToBaseUnit()
+        ) < EPSILON;
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(
-                convertToInches()
+                convertToBaseUnit()
+        );
+    }
+
+    @Override
+    public String toString() {
+
+        return String.format(
+                "%.6f %s",
+                value,
+                unit
         );
     }
 }
