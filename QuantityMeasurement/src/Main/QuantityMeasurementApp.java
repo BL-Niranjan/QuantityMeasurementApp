@@ -5,47 +5,51 @@ import Main.QuantityLength;
 
 public class QuantityMeasurementApp {
 
-    public static boolean checkEquality(
-            double value1,
-            LengthUnit unit1,
-            double value2,
-            LengthUnit unit2) {
-
-        QuantityLength quantity1 =
-                new QuantityLength(
-                        value1,
-                        unit1
-                );
-
-        QuantityLength quantity2 =
-                new QuantityLength(
-                        value2,
-                        unit2
-                );
-
-        return quantity1.equals(quantity2);
-    }
-
     public static void main(String[] args) {
 
-        System.out.println(
-                "1 Foot == 12 Inch : "
-                        + checkEquality(
+        QuantityLength yard =
+                new QuantityLength(
                         1.0,
-                        LengthUnit.FEET,
-                        12.0,
+                        LengthUnit.YARDS
+                );
+
+        QuantityLength feet =
+                new QuantityLength(
+                        3.0,
+                        LengthUnit.FEET
+                );
+
+        QuantityLength inch =
+                new QuantityLength(
+                        36.0,
                         LengthUnit.INCH
-                )
+                );
+
+        QuantityLength cm =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.CENTIMETER
+                );
+
+        QuantityLength inchEquivalent =
+                new QuantityLength(
+                        0.393701,
+                        LengthUnit.INCH
+                );
+
+        System.out.println(
+                "1 Yard == 3 Feet : "
+                        + yard.equals(feet)
         );
 
         System.out.println(
-                "1 Inch == 1 Inch : "
-                        + checkEquality(
-                        1.0,
-                        LengthUnit.INCH,
-                        1.0,
-                        LengthUnit.INCH
-                )
+                "1 Yard == 36 Inches : "
+                        + yard.equals(inch)
+        );
+
+        System.out.println(
+                "1 CM == 0.393701 Inch : "
+                        + cm.equals(inchEquivalent)
         );
     }
 }
