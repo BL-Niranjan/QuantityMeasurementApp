@@ -13,7 +13,7 @@ public class QuantityMeasurementApp {
     public static void main(String[] args) {
 
         //  Initialize DB
-        DatabaseInitializer.init();
+        DatabaseInitializer.init() ;
 
         IQuantityMeasurementRepository repo =
                 new QuantityMeasurementDatabaseRepository();
