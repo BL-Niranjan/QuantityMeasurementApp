@@ -1,7 +1,7 @@
 package Main.service;
 
-import com.src.main.dto.QuantityDTO;
-import com.src.main.entity.QuantityMeasurementEntity;
+import Main.dto.QuantityDTO;
+import Main.entity.QuantityMeasurementEntity;
 
 public interface IQuantityMeasurementService {
 
